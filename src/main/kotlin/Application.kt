@@ -21,6 +21,8 @@ const val emailToSendTo = "astroazure7@gmail.com"
 
 
 fun main(args: Array<String>) {
+    // force close chrome
+    Runtime.getRuntime().exec("taskkill /F /IM chrome.exe")
     searchChrome()
     connectDb()
     val list = getAccounts().filter {
