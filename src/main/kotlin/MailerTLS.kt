@@ -3,7 +3,10 @@ import javax.mail.*
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
-object MailTLS {
+object MailerTLS {
+    private const val emailToUse = "dmitrythrowlol@gmail.com"
+    private const val password = "A51e93A9EkZTAY"
+
     private val properties: Properties = Properties().apply {
         this["mail.smtp.auth"] = "true"
         this["mail.smtp.starttls.enable"] = "true"
@@ -13,7 +16,7 @@ object MailTLS {
 
     private val session: Session = Session.getDefaultInstance(properties, object : Authenticator() {
         override fun getPasswordAuthentication(): PasswordAuthentication {
-            return PasswordAuthentication("dmitrythrowlol@gmail.com", "A51e93A9EkZTAY" /* idc lol */)
+            return PasswordAuthentication(emailToUse, password)
         }
     })
 

