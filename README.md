@@ -1,6 +1,11 @@
 # ChromeKt
 Dumps google chrome passwords and sends them to your email.
 
+## Problems
+- Jar file is 10mb
+- Runs on JVM, -> slow startup. Need to improve startup to run effectively
+- Cannot run if target does not have JRE
+
 ## How to use?
 Clone and import folder from intelliJ. Make sure JDK is installed.
 
