@@ -32,6 +32,15 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+jar {
+    baseName 'ChromeKt'
+    manifest {
+        attributes 'Main-Class': 'ApplicationKt'
+    }
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
