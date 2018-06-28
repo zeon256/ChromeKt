@@ -4,8 +4,7 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 object MailerTLS {
-    // Account no longer exist. Just for testing purposes :)
-    private const val emailToUse = "dmitrythrowlol@gmail.com" /* Your gmail */
+    private const val emailToUse = "yourGmail@gmail.com" /* Your gmail */
     private const val password = "A51e93A9EkZTAY" /* Your gmail password*/
 
     private val properties: Properties = Properties().apply {
@@ -21,11 +20,11 @@ object MailerTLS {
         }
     })
 
-    private fun generatePlainTextEmail(email: String, _subject: String, emailBody: String) =
+    private fun generatePlainTextEmail(email: String, subject: String, emailBody: String) =
             MimeMessage(session).apply {
-                setFrom(InternetAddress("dmitrythrowlol@gmail.com"))
+                setFrom(InternetAddress(emailToUse))
                 setRecipients(Message.RecipientType.TO, InternetAddress.parse(email))
-                subject = _subject
+                this.subject = subject
                 setText(emailBody)
             }
 

