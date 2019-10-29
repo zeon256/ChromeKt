@@ -1,6 +1,10 @@
 # ChromeKt
 Dumps google chrome passwords and sends them to your email.
 
+<p align="center">
+  <img width="327" height="61" src="./logo.png">
+</p>
+
 ## Problems
 - Jar file is 10mb
 - Runs on JVM, -> slow startup. Need to improve startup to run effectively
